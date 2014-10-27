@@ -4,6 +4,8 @@ require_relative "cell"
 
 class World
 
+	INTERVAL = 1
+
 	def initialize(user_width, user_height)
 
 		@max_width_x = user_width - 1
@@ -36,14 +38,21 @@ class World
 		@rows.each do |y|
 			text += "Row: "
 			y.each_with_index do |c, i|
-				if (i % 2).eql? 0
-					text += " #{c.state} "
-				else
-					text += " #{c.state} "
-				end
+				text += "#{c.state}"
 			end
 			text += "\n"
 		end
 		return "#{text}\n" 
+	end
+
+	def place_ants(ants)
+		@ants = ants
+	end
+
+	def simulate(n)
+
+		# TODO: Move Ants, update state
+		puts "Generated iteration #{n}"
+		sleep INTERVAL
 	end
 end

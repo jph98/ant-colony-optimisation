@@ -4,12 +4,8 @@ require_relative "world"
 require_relative "ant"
 
 w = World.new(40, 20)
-
-ants = []
-(1..5).each do |n|
-	ants << Ant.new()
-end
-w.place_ants(ants)
+w.create_food(5)
+w.create_ants(5)
 
 n = 1
 while true
@@ -17,4 +13,5 @@ while true
 	puts w.display()
 	w.simulate(n)
 	n += 1
+	exit
 end

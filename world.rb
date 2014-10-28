@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require_relative "cell"
+require_relative "food"
 
 class World
 
@@ -12,6 +13,9 @@ class World
 		@max_height_y = user_height - 1
 
 		create_board()
+
+		@ants = []
+		@food_pieces = []
 	end
 
 	# Create the board
@@ -37,16 +41,45 @@ class World
 		text = ""
 		@rows.each do |y|
 			text += "Row: "
-			y.each_with_index do |c, i|
-				text += "#{c.state}"
+			y.each_with_index do |e, i|
+				case e
+				when Cell
+					text += "#{e.state}"
+				when Ant
+					text += "A".colorize(:red)
+				when Food
+					text += "F".colorize(:blue)
+				else
+					puts "Unknown: '#{e.class}'"
+				end
 			end
 			text += "\n"
 		end
 		return "#{text}\n" 
 	end
 
-	def place_ants(ants)
-		@ants = ants
+	def create_ants(num)
+
+		(0..num).each do |n|
+
+			x = rand(1..@max_width_x)
+			y = rand(1..@max_height_y)
+			ant = Ant.new(x, y)
+			@ants << ant
+			@rows[y][x] = ant
+		end
+	end
+
+	def create_food(num)
+
+		(0..num).each do |n|
+
+			x = rand(1..@max_width_x)
+			y = rand(1..@max_height_y)
+			food = Food.new(x, y)
+			@food_pieces << food
+			@rows[y][x] = food
+		end
 	end
 
 	def simulate(n)

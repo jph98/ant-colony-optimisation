@@ -1,16 +1,16 @@
 #!/usr/bin/env ruby
 
-class Food
+class Pheromone
 
 	attr_accessor :x, :y, :state
 
 	def initialize(x, y)
 		@x = x
 		@y = y
-		@state = "F"
+		@state = "P"
 	end
 
 	def state()
-		return @state.colorize(:light_red)
+		return @state.colorize(:light_blue)
 	end
 end

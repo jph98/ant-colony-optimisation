@@ -8,25 +8,15 @@ class Cell
 
 	attr_accessor :x, :y, :state
 
-	EMPTY = "E"
-	FOOD = "F"
-	PHEROMONE = "P"
-
-	def initialize(x, y, state)
+	def initialize(x, y)
 		@x = x
 		@y = y
-		@state = state
+		@state = "E"
 	end
 
 	def state()
 
-		if @state.eql? EMPTY
-			return @state.colorize(:light_green)
-		elsif @state.eql? FOOD
-			return @state.colorize(:light_red)
-		elsif @state.eql? PHEROMONE
-			return @state.colorize(:light_blue)
-		end
+		return @state.colorize(:light_green)
 	end
 
 	def to_s

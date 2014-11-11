@@ -3,9 +3,11 @@
 require_relative "world"
 require_relative "ant"
 
-w = World.new(40, 20)
+interval = 0.5
+
+w = World.new(10, 10, interval)
 w.create_food(5)
-w.create_ants(5)
+w.create_ants(1)
 
 n = 1
 while true
@@ -13,5 +15,4 @@ while true
 	puts w.display()
 	w.simulate(n)
 	n += 1
-	exit
 end

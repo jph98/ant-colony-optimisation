@@ -18,7 +18,7 @@ class TestAnt < Minitest::Test
     # Basic directions
     def test_north
     
-        @ant.set_direction(:N)
+        @ant.direction = :N
         x, y = @ant.get_coords(@max_x, @max_y)
         assert_equal 2, x
         assert_equal 1, y
@@ -26,7 +26,7 @@ class TestAnt < Minitest::Test
 
     def test_north_east
     
-        @ant.set_direction(:NE)
+        @ant.direction = :NE
         x, y = @ant.get_coords(@max_x, @max_y)
         assert_equal 3, x
         assert_equal 1, y
@@ -34,7 +34,7 @@ class TestAnt < Minitest::Test
 
     def test_east
     
-        @ant.set_direction(:E)
+        @ant.direction = :E
         x, y = @ant.get_coords(@max_x, @max_y)
         assert_equal 3, x
         assert_equal 2, y
@@ -42,7 +42,7 @@ class TestAnt < Minitest::Test
 
     def test_south_east
     
-        @ant.set_direction(:SE)
+        @ant.direction = :SE
         x, y = @ant.get_coords(@max_x, @max_y)
         assert_equal 3, x
         assert_equal 3, y
@@ -50,7 +50,7 @@ class TestAnt < Minitest::Test
 
     def test_south
     
-        @ant.set_direction(:S)
+        @ant.direction = :S
         x, y = @ant.get_coords(@max_x, @max_y)
         assert_equal 2, x
         assert_equal 3, y
@@ -58,7 +58,7 @@ class TestAnt < Minitest::Test
 
     def test_south_west
     
-        @ant.set_direction(:SW)
+        @ant.direction = :SW
         x, y = @ant.get_coords(@max_x, @max_y)
         assert_equal 1, x
         assert_equal 3, y
@@ -66,7 +66,7 @@ class TestAnt < Minitest::Test
  
     def test_west
     
-        @ant.set_direction(:W)
+        @ant.direction = :W
         x, y = @ant.get_coords(@max_x, @max_y)
         assert_equal 1, x
         assert_equal 2, y
@@ -74,19 +74,50 @@ class TestAnt < Minitest::Test
 
     def test_north_west
     
-        @ant.set_direction(:NW)
+        @ant.direction = :NW
         x, y = @ant.get_coords(@max_x, @max_y)
         assert_equal 1, x
         assert_equal 1, y
     end
 
-    # Boundaries
     def test_north_boundary
+        boundary(0, 0, :N)
+    end
+
+    def test_northeast_boundary
+        boundary(5, 0, :NE)
+    end
+
+    def test_east_boundary
+        boundary(5, 0, :E)
+    end
+
+    def test_southeast_boundary
+        boundary(5, 5, :SE)
+    end
+
+    def test_south_boundary
+        boundary(0, 5, :S)
+    end
+
+    def test_southwest_boundary
+        boundary(0, 5, :SW)
+    end
+
+    def test_west_boundary
+        boundary(0, 5, :W)
+    end
+
+    def test_northwest_boundary
+        boundary(0, 0, :NW)
+    end
+
+    def boundary(x, y, initial)
    
-        @ant = Ant.new(2, 0) 
-        @ant.set_direction(:N)
-        x, y = @ant.get_coords(@max_x, @max_y)
-        assert_equal 2, x
-        assert_equal 1, y
+        @ant = Ant.new(x, y)
+        @ant.direction = initial
+        @ant.get_coords(@max_x, @max_y)
+        puts "Current: #{@ant.direction} initial #{initial}"
+        assert @ant.direction != initial, "Direction still same"
     end
 end

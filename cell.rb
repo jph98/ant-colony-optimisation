@@ -8,15 +8,16 @@ class Cell
 
 	attr_accessor :x, :y, :state
 
+	STATE = "E"
+
 	def initialize(x, y)
 		@x = x
 		@y = y
-		@state = "E"
 	end
 
 	def state()
 
-		return @state.colorize(:light_green)
+		return STATE.colorize(:light_green)
 	end
 
 	def to_s

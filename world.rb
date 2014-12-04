@@ -7,7 +7,13 @@ class World
 
 	attr_accessor :interval
 
-	def initialize(user_width, user_height, interval)
+	DEBUG = false
+
+	# user_width - width of the board
+	# user_height - height of the board
+	# interval - interval to wait inbetween making moves
+	# ants_random_direction_change - whether Ants should randomly change direction
+	def initialize(user_width, user_height, interval, ants_random_direction_change)
 
 		@max_width_x = user_width - 1
 		@max_height_y = user_height - 1
@@ -18,6 +24,8 @@ class World
 		@food_pieces = []
 
 		@interval = interval
+
+		@ants_random_direction_change = ants_random_direction_change
 	end
 
 	# Create the board
@@ -46,13 +54,13 @@ class World
 			y.each_with_index do |e, i|
 				case e
 				when Cell
-					text += "#{e.state}"
+					text += Cell::STATE.colorize(:light_green)
 				when Ant
-					text += "A".colorize(:red)
+					text += Ant::STATE.colorize(:red)
 				when Food
-					text += "F".colorize(:blue)
+					text += Food::STATE.colorize(:blue)
 				else
-					puts "Unknown: '#{e.class}'"
+					puts "Unknown: '#{e.class}'" if DEBUG
 				end
 			end
 			text += "\n"
@@ -66,7 +74,7 @@ class World
 
 			x = rand(1..@max_width_x)
 			y = rand(1..@max_height_y)
-			ant = Ant.new(x, y)
+			ant = Ant.new(x, y, @ants_random_direction_change)
 			@ants << ant
 			@map[y][x] = ant
 		end
@@ -100,15 +108,16 @@ class World
 		when Cell
 			# Occupy
 			@map[y][x] = a
-			return "#{space.state}"
+			return "#{Cell::STATE}"
 		when Ant
-			# TODO: Collision, change direction
 			#raise "Not Implementation: collision"
-			return "#{space.state}"
+			return "#{Ant::STATE}"
 		when Food
 			# Collect food, start to leave trail
 			#raise "Not Implemented: food collection"
-			return "#{space.state}"
+			a.collect_food()
+			@map[y][x] = a
+			return "#{Food::STATE}"
 		else
 			raise "Moved to an unknown space: '#{space.class}'"
 		end
